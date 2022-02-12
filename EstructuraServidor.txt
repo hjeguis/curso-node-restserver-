@@ -1,0 +1,64 @@
+const express = require('express')
+cors=require('cors')
+
+class Server {
+    constructor() {
+        this.app = express()
+        this.port = process.env.PORT
+
+
+        //Middlewares --> son funciones que van añedirle otras funcionalidad al a mi web server. es decie que es una funcion que se va a ejecutar cuando nosotros levantemos nuestro servidor .
+        this.middlewares();
+
+        //Rutas de mi aplicacion 
+        this.router();
+    }
+
+    middlewares() {
+        //CORS
+        this.app.use(cors());
+
+        //Directorio publico
+        this.app.use(express.static('public'));
+    }
+
+    router() {
+        this.app.get('/api', (req, res) => {
+            res.json({
+                ok: true,
+                msg: 'get API'
+            })
+        })
+        this.app.put('/api', (req, res) => {
+            res.status(500).json({
+                ok: true,
+                msg: 'put API'
+            })
+        })
+        this.app.post('/api', (req, res) => {
+            res.json({
+                ok: true,
+                msg: 'post API'
+            })
+        })
+        this.app.delete('/api', (req, res) => {
+            res.json({
+                ok: true,
+                msg: 'delete API'
+            })
+        })
+        this.app.patch('/api', (req, res) => {
+            res.json({
+                ok: true,
+                msg: 'pathc API'
+            })
+        })
+
+    }
+    listen() {
+        this.app.listen(this.port, () => {
+            console.log('Servidor corriendo en el puerto', this.port);
+        });
+    }
+}
+module.exports = Server;
